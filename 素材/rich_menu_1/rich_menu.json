@@ -1,0 +1,85 @@
+{
+  "size": {
+    "width": 2500,
+    "height": 1686
+  },
+  "selected": true,
+  "name": "圖文選單 2",
+  "chatBarText": "查看更多資訊",
+  "areas": [
+    {
+      "bounds": {
+        "x": 8,
+        "y": 12,
+        "width": 809,
+        "height": 813
+      },
+      "action": {
+        "type": "postback",
+        "text": "確認我的資料",
+        "data": "information=123"
+      }
+    },
+    {
+      "bounds": {
+        "x": 846,
+        "y": 21,
+        "width": 800,
+        "height": 804
+      },
+      "action": {
+        "type": "postback",
+        "text": "食譜推薦中．．．請稍後",
+        "data": "recipe=123"
+      }
+    },
+    {
+      "bounds": {
+        "x": 1679,
+        "y": 12,
+        "width": 809,
+        "height": 821
+      },
+      "action": {
+        "type": "postback",
+        "data": "exercise=123"
+      }
+    },
+    {
+      "bounds": {
+        "x": 17,
+        "y": 854,
+        "width": 808,
+        "height": 821
+      },
+      "action": {
+        "type": "postback",
+        "data": "diary=123"
+      }
+    },
+    {
+      "bounds": {
+        "x": 858,
+        "y": 870,
+        "width": 792,
+        "height": 805
+      },
+      "action": {
+        "type": "postback",
+        "data": "love=123"
+      }
+    },
+    {
+      "bounds": {
+        "x": 1679,
+        "y": 870,
+        "width": 809,
+        "height": 809
+      },
+      "action": {
+        "type": "uri",
+        "uri": "http://line.me/R/nv/camera/"
+      }
+    }
+  ]
+}

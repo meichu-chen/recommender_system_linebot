@@ -1,0 +1,23 @@
+{
+  "size": {
+    "width": 2500,
+    "height": 1686
+  },
+  "selected": true,
+  "name": "圖文選單 1",
+  "chatBarText": "查看更多資訊",
+  "areas": [
+    {
+      "bounds": {
+        "x": 25,
+        "y": 21,
+        "width": 2432,
+        "height": 1653
+      },
+      "action": {
+        "type": "message",
+        "text": "我要加入你們！"
+      }
+    }
+  ]
+}

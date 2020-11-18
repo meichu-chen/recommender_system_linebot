@@ -1,0 +1,56 @@
+{% include "header.html" %}
+<input id = "userID" name = "userID" type = "hidden" value = {{userID}}>
+
+
+{% block body %}
+
+
+<div class="panel=heading">
+
+<h2>新增日記<a class="pull-right btn btn-success" href="/">Back</a> </h2>
+
+</div>
+
+
+
+<div class="panel-body">
+
+<form action="{{ url_for('processtudent') }}" method="post">
+<div class="form-group">
+
+
+
+    <label for="food_name">food_name</label>
+    <input type="text" class="form-control" name="food_name" id="food_name" required = "1" >
+
+</div>
+
+
+
+
+        <div class="form-group">
+
+    <label for="food_calory">food_calory</label>
+    <input type="text" name="food_calory" id="food_calory" >
+
+</div>
+
+
+    <div class="form-group">
+     <input type="hidden" name="diary_id" value="1">
+     <input type="hidden" name="action" value="edit">
+     <input type="submit" class="btn btn-success" name="submit" value="Add Diary">
+
+</div>
+
+
+</form>
+
+
+</div>
+
+
+
+{% endblock %}
+
+

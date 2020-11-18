@@ -1,0 +1,97 @@
+{% include "header5.html" %}
+
+<link href="{{url_for('static', filename = 'css/bootstrap.min.css')}}" rel="stylesheet">
+<meta name="viewport" content="width=device-width">
+
+{% block body %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" >
+    <title>Register Form</title>
+</head>
+<body>
+    <form method='post' action= "{{ url_for('submit') }}">
+    <input type="hidden" name="user_ID" value="{{ ID }}">
+
+            {% for i in u %}
+            <tr>
+
+                <div>
+                    <label>名字:</label>
+                    <input type = 'textbox'  name = 'name' value= '{{ i[0] }}' placeholder="Ex:宋慧喬" required>
+                </div>
+                    <br>
+                 <div>
+                    <label>Email:</label>
+                <input type = 'email'  name = 'email' value='{{ i[1] }}' placeholder="Ex:123@gmail.com" required>
+                </div>
+                    <br>
+                <div>
+                    <label>性別:<span class = 'r'></span></label>
+                    <select  name = "gender"  >
+                        <option value = '1' >男</option>
+                        <option value = '2' >女</option>
+                    </select>
+                    <label><font size="2.5"><span style="color:#FF9696;">請重新選擇</span></font></label>
+
+                </div>
+                    <br>
+                <div>
+                    <label>年齡:</label>
+                <input type = 'number'  pattern="[0-9]{2}"  name = 'age' value='{{ i[3] }}' placeholder="Ex:25" required>
+                </div>
+                    <br>
+                <div>
+                    <label>身高(公分,cm):</label>
+                <input type = 'number'  step="0.1" pattern="[0-9]{4}" title="最多到小數第一位" name = 'height' value='{{ i[4] }}' placeholder="Ex:160" required>
+                </div>
+                    <br>
+                <div>
+                    <label>體重(公斤,kg):</label>
+                <input type = 'number'  step="0.1" pattern="[0-9]{4}" title="最多到小數第一位" name = 'weight' value='{{ i[5] }}' placeholder="Ex:50" required>
+                </div>
+                    <br>
+                <div>
+                    <label>平常運動頻率:<span class = 'r'></span></label>
+                    <label><font size="2.5"><span style="color:#FF9696;">請重新選擇</span></font></label>
+                    <select  name = "activity_level"  >
+                        <option value = '1' >久坐(沒什麼運動)</option>
+                        <option value = '2' >輕量活動(輕鬆運動3-5天)</option>
+                        <option value = '3' >中度活動量(中等強度運動3-5天)</option>
+                        <option value = '4' >高度活動量(高強度運動6-7天)</option>
+                        <option value = '5' >非常高度活動量(勞力密集工作或一天訓練兩次以上)</option>
+
+                    </select>
+
+                </div>
+                    <br>
+                <label>喜歡的食材:</label>
+
+               <label>  <font size="2.5"><span style="color:#FF9696;">例如：雞肉 花椰菜 (用空格隔開)</span></font></label>
+                    <br>
+                <textarea required style="width:350px;height:120px;" type="text" name="like_ingredient" maxlength="100"  >{{ i[7] }}</textarea>
+                    <br>
+                <label>討厭或過敏的食材:</label>
+
+                <label>
+                    <font size="2.5"><span style="color:#FF9696;">例如：蝦子 牛奶 (用空格隔開)</span></font></label>
+                    <br>
+                <textarea required style="width:350px;height:120px;" type="text" name="dislike_ingredient" maxlength="100" >{{ i[8] }}</textarea>
+                <br>
+
+        </tr>
+        {% endfor %}
+        <p><button type = 'submit'>確認送出</button></p>
+    </form>
+</body>
+</html>
+
+{% endblock %}
+
+
+<script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+
+<script type="text/javascript" src="{{url_for('static', filename = 'js/bootstrap.min.js')}}"></script>

@@ -1,0 +1,17 @@
+[{
+  "type": "template",
+  "altText": "this is a buttons template",
+  "template": {
+    "type": "buttons",
+    "title": "最後一步",
+    "text": "點擊按鈕開始服務",
+    "actions": [
+      {
+        "type": "postback",
+        "label": "正式使用食健主義",
+        "text": "啟用服務",
+        "data": "menu2=rich_menu_1"
+      }
+    ]
+  }
+}]

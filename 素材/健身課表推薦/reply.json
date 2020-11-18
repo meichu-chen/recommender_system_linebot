@@ -1,0 +1,35 @@
+[{
+  "type": "template",
+  "altText": "this is a buttons template",
+  "template": {
+    "type": "buttons",
+    "thumbnailImageUrl": "https://www.peeta.tw/wp-content/uploads/2018/09/training-828741_1280.jpg",
+    "imageAspectRatio": "rectangle",
+    "imageSize": "contain",
+    "title": "健身課表推薦",
+    "text": "請選擇想要運動的部位",
+    "actions": [
+      {
+        "type": "postback",
+        "label": "胸",
+        "data": "folder=強度"
+      },
+      {
+        "type": "postback",
+        "label": "背",
+        "data": "folder=強度"
+      },
+      {
+        "type": "postback",
+        "label": "腿",
+        "data": "folder=強度"
+      },
+      {
+        "type": "postback",
+        "label": "二頭、三頭",
+        "text": "動作 4",
+        "data": "folder=強度"
+      }
+    ]
+  }
+}]

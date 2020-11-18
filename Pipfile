@@ -1,0 +1,26 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+"line-bot-sdk"="1.17.0"
+"flask"="1.1.2"
+"numpy"="1.18.5"
+"gensim"="3.8.3"
+"pymysql"="0.10.1"
+"flask_sqlalchemy"="2.4.4"
+"confluent-kafka"="1.5.0"
+"opencv-python"="4.4.0"
+"tensorflow"="2.3.1"
+"Pillow"="8.0.0"
+"matplotlib"="3.3.2"
+"keras"="2.4.3"
+"cryptography"="3.2.1"
+"flask_bootstrap"="*"
+"redis"="3.5.3"
+
+[requires]
+python_version = "3.8.2"

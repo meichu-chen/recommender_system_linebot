@@ -1,0 +1,6 @@
+.env
+.ipynb_checkpoint
+.DS_Store
+__pycache__
+line_secret_key
+users.txt

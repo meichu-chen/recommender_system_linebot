@@ -1,0 +1,31 @@
+
+# 將消息模型，文字收取消息與文字寄發消息 引入
+from linebot.models import (MessageEvent, TextMessage, TextSendMessage, ImageMessage)
+from check_v3_model import photoIdentification
+
+'''
+
+若收到圖片消息時，
+
+先回覆用戶文字消息，並從Line上將照片拿回。
+'''
+
+@handler.add(MessageEvent, message=ImageMessage)
+def handle_message(event):
+
+    user_profile = line_bot_api.get_profile(event.source.user_id)
+    userID = str(user_profile.user_id)
+
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text='照片辨識中．．．請稍後'))
+    message_content = line_bot_api.get_message_content(event.message.id)
+    with open('./images/'+userID+'.jpg', 'wb') as fd:
+        for chunk in message_content.iter_content():
+            fd.write(chunk)
+
+    result = photoIdentification(userID)
+
+    #push message to one user
+    line_bot_api.push_message('{}'.format(userID),
+    TextSendMessage(text='{}'.format(result)))

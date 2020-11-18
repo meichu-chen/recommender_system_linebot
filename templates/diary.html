@@ -1,0 +1,306 @@
+
+{% include "header3.html" %}
+
+<link href="{{url_for('static', filename = 'css/bootstrap.min.css')}}" rel="stylesheet">
+<meta name="viewport" content="width=device-width">
+
+<input name = "userID" type = "hidden" value = {{userID}}>
+
+<div>
+    <label>TDEE:{{tdee}} k/cal</label><br>
+    <label>今日攝取熱量:{{foodcal}} k/cal</label><br>
+    <label>剩餘熱量:{{ remaining }} k/cal</label>
+</div>
+
+
+{% block body %}
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="col md-12">
+
+
+
+            <button type="button" class="btn btn-success  pull-right" data-toggle="modal" data-target="#myModal">新增日記</button>
+
+
+
+
+    {%with messages = get_flashed_messages()%}
+
+    {%if messages%}
+
+    {% for message in messages %}
+
+    <div class="alert alert-success alert-dismissable" role="alert">
+
+     <button type="button" class="close" data-dismiss="alert" aria-label ="close">
+
+         <span aria-hidden="true">&times;</span>
+
+     </button>
+        {{message}}
+
+
+    </div>
+
+
+    {%endfor%}
+    {%endif%}
+    {%endwith%}
+
+
+
+
+            <table class="table table-striped">
+
+
+                <tr>
+              <th><p align="center" valign="center">吃什麼</p></th>
+              <th><p align="center" valign="center">熱量</p></th>
+              <th><p align="center" valign="center">時間</p></th>
+              <th></th>
+
+                </tr>
+
+
+
+
+
+                {% for row in diary %}
+                <tr>
+                    <td><p align="center">{{row.2}}</p></td>
+                    <td><p align="center">{{row.3}}</p></td>
+                    <td><p align="center">{{row.4}}</p></td>
+                    <td>
+
+
+               <a href="/update" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{row.1}}" p align="center" valign="center">Edit</a>
+
+                <a href="/kill" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modalkill{{row.1}}" p align="center" valign="center" >Delete</a>
+
+                    </td>
+
+                </tr>
+
+
+                  <div id="modalkill{{row.1}}" class="modal fade" role="dialog">
+                  <div class="modal-content" p align="center" valign="center" >
+                  <form action ="{{ url_for('killdiary') }}" method="POST">
+                  <input name = "userID" type = "hidden" value = {{userID}}>
+                  <input type="hidden"  name="diary_id" value="{{row.1}}">
+                      <label p align="center" valign="center">你確定要刪除嗎</label><br>
+                      <button class="btn btn-primary" type="sbumit">Delete</button>
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+
+                  </form>
+                  </div>
+                  <div class="modal-footer">
+                  </div>
+                  </div>
+
+
+
+
+
+                <div id="modaledit{{row.1}}" class="modal fade" role="dialog">
+
+
+
+
+   <div class="modal-dialog">
+
+
+      <div class="modal-content">
+
+
+
+         <div class="modal-header">
+
+
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+
+            <h4 class="modal-title">編輯日記</h4>
+
+
+         </div>
+
+
+         <div class="modal-body">
+
+
+            <form action="{{ url_for('update') }}" method="POST">
+                <input id = "userID" name = "userID" type = "hidden" value = {{userID}}>
+
+
+               <div class="form-group">
+
+
+                  <label>吃了什麼？</label>
+                  <input type="hidden"  name="diary_id" value="{{row.1}}">
+
+                  <input type="text" class="form-control" name="food_name" value="{{row.2}}">
+
+
+               </div>
+
+                <div class="form-group">
+
+
+                  <label>熱量多少呢？</label>
+
+                  <input type="text" class="form-control" name="food_calory" placeholder ="單位 k/cal"  value="{{row.3}}">
+
+               </div>
+
+
+
+               <div class="form-group">
+
+
+                  <button class="btn btn-primary" type="sbumit">Update</button>
+
+
+               </div>
+
+
+            </form>
+
+
+         </div>
+
+
+         <div class="modal-footer">
+
+
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+
+         </div>
+
+
+      </div>
+
+
+   </div>
+
+
+</div>
+
+
+                {% endfor  %}
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+<!-- Modal -->
+
+
+<div id="myModal" class="modal fade" role="dialog">
+
+
+   <div class="modal-dialog">
+
+
+      <div class="modal-content">
+
+
+
+         <div class="modal-header">
+
+
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+
+            <h4 class="modal-title">請輸入日記</h4>
+
+
+         </div>
+
+
+
+         <div class="modal-body">
+
+
+            <form action="{{ url_for('insert') }}" method="POST">
+            <input name = "userID" type = "hidden" value = {{userID}}>
+
+
+               <div class="form-group">
+
+
+                  <label>吃了什麼呢？</label>
+                  <input type="text" class="form-control" name="food_name" required="1">
+
+
+               </div>
+
+                <div class="form-group">
+
+
+                  <label>熱量多少呢？</label>
+                  <input type="text" class="form-control" name="food_calory" placeholder ="單位 k/cal" required="1">
+
+
+               </div>
+
+
+
+
+               <div class="form-group">
+
+
+                  <button class="btn btn-primary" type="submit">Insert Data</button>
+
+
+               </div>
+
+
+            </form>
+
+
+         </div>
+
+
+         <div class="modal-footer">
+
+
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+
+         </div>
+
+
+      </div>
+
+
+   </div>
+
+
+</div>
+
+
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}
+
+
+<script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+
+<script type="text/javascript" src="{{url_for('static', filename = 'js/bootstrap.min.js')}}"></script>

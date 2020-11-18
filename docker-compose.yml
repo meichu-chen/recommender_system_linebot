@@ -1,0 +1,267 @@
+version: '2'
+services:
+  flask-chatbot.pri:
+    build:
+      context: .
+      dockerfile: dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      line_channel_access_token:'${line_channel_access_token}'
+      line_channel_secret:'${line_channel_secret}'
+      #AWS_ACCESS_KEY_ID:'${AWS_ACCESS_KEY_ID}'
+      #AWS_SECRET_ACCESS_KEY:'${AWS_SECRET_ACCESS_KEY}'
+      TZ: 'Asia/Taipei' 
+    volumes:
+      - .:/app
+    command: python kafkaCmember.py
+    depends_on:
+      - mysql
+    networks:
+      - es7net
+
+  ngrok-temp:
+    image: wernight/ngrok
+    ports:
+      - "4040:4040"
+    environment:
+      NGROK_AUTH:'${NGROK_AUTH}'
+      NGROK_USERNAME:'${NGROK_USERNAME}'
+      NGROK_PASSWORD:'${NGROK_PASSWORD}'
+      NGROK_PORT: flask-chatbot.pri:5000
+      NGROK_REGION: 'ap'
+      TZ: 'Asia/Taipei' 
+    depends_on:
+      - flask-chatbot.pri
+    networks:
+      - es7net
+
+  mongo:
+    image: mongo
+    container_name: mongodb
+    hostname: mongodb
+    environment:
+      - TZ=Asia/Taipei
+    volumes:
+      - ./docker/data/mongodb:/data/db
+    restart: always
+    expose:
+      - 6016
+    ports:
+      - "27017:27017"
+    networks:
+      - es7net
+  #
+  # adminmongo:
+  #   image: mrvautin/adminmongo
+  #   container_name: adminmongo
+  #   hostname: adminmongo
+  #   ports:
+  #     - "1234:1234"
+  #   environment:
+  #     - HOST=0.0.0.0
+  #   networks:
+  #     - es7net
+
+  # jupyter:
+  #   build:
+  #     context: ./dockerfile
+  #     dockerfile: dockerfile-jupyter
+  #   container_name: jupyter
+  #   hostname: jupyter
+  #   ports:
+  #     - "8889:8888"
+  #   command: start-notebook.sh --NotebookApp.token=''
+  #   volumes:
+  #     - /Users/kc-wang/PycharmProjects/tibame_proj_DB/jupyter:/home/jovyan/work
+  #   networks:
+  #     - es7net
+
+  # pyspark:
+  #   image: orozcohsu/pyspark_mongo_ltu:v3
+  #   container_name: pyspark
+  #   hostname: pyspark
+  #   ports:
+  #     - "8890:8888"
+  #     - "4040:4040"
+  #     - "4041:4041"
+  #   command: start-notebook.sh --NotebookApp.token=''
+  #   volumes:
+  #     - ./data/pyspark:/pyspark
+  #   networks:
+  #     - es7net
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    hostname: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3307:3306"
+    environment:
+      - TZ=Asia/Taipei
+      - MYSQL_ROOT_PASSWORD='${MYSQL_ROOT_PASSWORD}'
+    volumes:
+      - ./docker/data/mysql_db/mysql_data:/var/lib/mysql
+      - ./docker/data/mysql_init:/docker-entrypoint-initdb.d/
+    networks:
+      - es7net
+
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:5.2.1
+    hostname: zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    depends_on:
+      - flask-chatbot.pri
+    networks:
+      - es7net
+
+  kafka:
+    image: confluentinc/cp-kafka:5.2.1
+    hostname: kafka
+    container_name: kafka
+    ports:
+      - '9092:9092'
+      - '29092:29092'
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      ## for local use
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      ## for public use
+      #KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://<host_ip>:9092
+      #advertised.host.name: <host_ip>
+    networks:
+      - es7net
+
+  # hadoop:
+  #   image: orozcohsu/ha-sp-ze-zo-hi-fl:v7
+  #   container_name: hadoop
+  #   hostname: master
+  #   environment:
+  #     - "NODE_TYPE=master"
+  #   expose:
+  #     - "50070"
+  #     - "9000"
+  #   ports:
+  #     - "50070:50070"
+  #     - "9000:9000"
+  #     - "2222:22"
+  #     - "8080:8080"
+  #     - "18080:18080"
+  #     - "10000:10000"
+  #     - "10002:10002"
+  #     - "9083:9083"
+  #   volumes:
+  #     - /Users/kc-wang/PycharmProjects/tibame_proj_DB/hadoop/tmp/docker-cluster-hadoop-name/:/data/dfs/name/
+  #     - /Users/kc-wang/PycharmProjects/tibame_proj_DB/hadoop/tmp/docker-cluster-hadoop-data/:/data/dfs/data/
+  #     - /Users/kc-wang/PycharmProjects/tibame_proj_DB/hadoop/tmp/docker-cluster-hadoop-logs/:/usr/local/hadoop/logs/
+  #     - /Users/kc-wang/PycharmProjects/tibame_proj_DB/hadoop/tmp/docker-cluster-zookeeper-logs/:/var/log/zookeeper/
+  #     - /Users/kc-wang/PycharmProjects/tibame_proj_DB/hadoop/tmp/docker-cluster-zeppelin-logs/:/usr/local/zeppelin/log
+  #     - /Users/kc-wang/PycharmProjects/tibame_proj_DB/hadoop/mapreduce:/root/mapreduce
+  #   networks:
+  #     - es7net
+
+
+  # elasticsearch:
+  #   image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.2.0
+  #   container_name: elasticsearch
+  #   restart: always
+  #   hostname: elasticsearch
+  #   environment:
+  #     - cluster.name=docker-cluster
+  #     - node.name=node1
+  #     - bootstrap.memory_lock=true
+  #     - "ES_JAVA_OPTS=-Xms384m -Xmx384m"
+  #     - "cluster.initial_master_nodes=node1"
+  #   ulimits:
+  #     memlock:
+  #       soft: -1
+  #       hard: -1
+  #   volumes:
+  #     - ./esdata:/usr/share/elasticsearch/data
+  #   ports:
+  #     - 9200:9200
+  #   networks:
+  #     - es7net
+
+  # logstash:
+  #   image: docker.elastic.co/logstash/logstash-oss:7.2.0
+  #   container_name: logstash
+  #   hostname: logstash
+  #   restart: always
+  #   volumes:
+  #     - ./logstash/data:/usr/share/logstash/data:rw
+  #     - ./logstash/template:/usr/share/logstash/template:ro
+  #     #- ./logstash/logs:/usr/share/logstash/logs:rw
+  #     - ./logstash/config/pipelines.yml:/usr/share/logstash/config/pipelines.yml:ro
+  #     - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+  #   ports:
+  #     - "127.0.0.1:5005:5000/udp"
+  #   environment:
+  #     LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+  #   networks:
+  #     - es7net
+  #   depends_on:
+  #     - elasticsearch
+
+  # logspout:
+  #   image: bekt/logspout-logstash
+  #   container_name: logspout
+  #   hostname: logspout
+  #   restart: always
+  #   environment:
+  #     ROUTE_URIS: logstash+tcp://logstash:5000
+  #   depends_on:
+  #     - logstash
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #   networks:
+  #     - es7net
+
+  # kibana:
+  #   image: docker.elastic.co/kibana/kibana-oss:7.2.0
+  #   container_name: kibana
+  #   hostname: kibana
+  #   environment:
+  #     SERVER_NAME: kibana_server
+  #     ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+  #   networks:
+  #     - es7net
+  #   depends_on:
+  #     - elasticsearch
+  #   ports:
+  #     - 5601:5601
+
+  redis:
+    image: 'bitnami/redis:latest'
+    container_name: redis
+    hostname: redis
+    restart: always
+    ports:
+      - 6379:6379
+    depends_on:
+      - mysql
+    environment:
+      - TZ=Asia/Taipei   
+      - REDIS_PASSWORD=iii
+    volumes:
+      - /Users/kc-wang/PycharmProjects/tibame_proj_DB/redis/data:/usr/share/redis/data
+    networks:
+      - es7net
+
+
+
+networks:
+  es7net:

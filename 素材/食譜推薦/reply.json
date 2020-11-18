@@ -1,0 +1,63 @@
+[
+{
+  "type": "template",
+  "altText": "this is a carousel template",
+  "template": {
+    "type": "carousel",
+    "actions": [],
+    "columns": [
+      {
+        "thumbnailImageUrl": "https://imageproxy.icook.network/resize?height=600&nocrop=false&stripmeta=true&type=auto&url=http%3A%2F%2Ftokyo-kitchen.icook.tw.s3.amazonaws.com%2Fuploads%2Frecipe%2Fcover%2F350499%2F11b6e9690f946e89.jpg&width=800",
+        "text": "【減脂便當】鮪魚薯泥&甜豆蝦仁",
+        "actions": [
+          {
+            "type": "uri",
+            "label": "食譜連結",
+            "uri": "https://icook.tw/recipes/350499"
+          },
+          {
+            "type": "postback",
+            "label": "加入我的最愛",
+            "text": "加入我的最愛",
+            "data": "name=recipe"
+          }
+        ]
+      },
+      {
+        "thumbnailImageUrl": "https://imageproxy.icook.network/resize?height=600&nocrop=false&stripmeta=true&type=auto&url=http%3A%2F%2Ftokyo-kitchen.icook.tw.s3.amazonaws.com%2Fuploads%2Frecipe%2Fcover%2F350438%2F54292541b4b34995.jpg&width=800",
+        "text": "【紙包鮭魚料理】烤箱｜爐連烤｜鮭魚｜健身",
+        "actions": [
+          {
+            "type": "uri",
+            "label": "食譜連結",
+            "uri": "https://icook.tw/recipes/350438"
+          },
+          {
+            "type": "postback",
+            "label": "加入我的最愛",
+            "text": "加入我的最愛",
+            "data": "name=recipe"
+          }
+        ]
+      },
+      {
+        "thumbnailImageUrl": "https://imageproxy.icook.network/resize?height=600&nocrop=false&stripmeta=true&type=auto&url=http%3A%2F%2Ftokyo-kitchen.icook.tw.s3.amazonaws.com%2Fuploads%2Frecipe%2Fcover%2F350180%2Fde706ff07ae8f038.jpg&width=800",
+        "text": "【台鹽料理教室】雞肉溫沙拉",
+        "actions": [
+          {
+            "type": "uri",
+            "label": "食譜連結",
+            "uri": "https://icook.tw/recipes/350180"
+          },
+          {
+            "type": "postback",
+            "label": "加入我的最愛",
+            "text": "加入我的最愛",
+            "data": "name=recipe"
+          }
+        ]
+      }
+    ]
+  }
+}
+]
