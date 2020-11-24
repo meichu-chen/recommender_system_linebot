@@ -39,5 +39,5 @@ All services and databases are built in docker containers, including python devo
 
 ![alt text](https://github.com/imkir0513/Recommender-system-linebot/blob/master/demo_image/image_recog.jpg)
 
-5. Functions as Saving workout plans or Saving recipes are also included. More demo images, please refer to demo_img directory.
+5. Functions as Saving workout plans or Saving recipes are also included. More demo images, please refer to demo_image directory.
 
