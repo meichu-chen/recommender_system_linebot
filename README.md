@@ -25,19 +25,19 @@ All services and databases are built in docker containers, including python devo
 ## Line Chatbot API
 1. Follow the chatbot.
 
-![alt text](https://github.com/imkir0513/Recommender-system-linebot/blob/master/demo_image/follow_event.jpg)
+![alt text](https://github.com/imkir0513/Recommender-system-linebot/blob/master/demo_image/follow_event.jpg =100x20)
 
 2. Richmenu
 
-![alt text](https://github.com/imkir0513/Recommender-system-linebot/blob/master/demo_image/richmenu.PNG)
+![alt text](https://github.com/imkir0513/Recommender-system-linebot/blob/master/demo_image/richmenu.PNG =100x20)
 
 3. Recipe recommendation.
 
-![alt text](https://github.com/imkir0513/Recommender-system-linebot/blob/master/demo_image/recipe_recom.jpg)
+![alt text](https://github.com/imkir0513/Recommender-system-linebot/blob/master/demo_image/recipe_recom.jpg =100x20)
 
 4. Gym Equipment image recognition.
 
-![alt text](https://github.com/imkir0513/Recommender-system-linebot/blob/master/demo_image/image_recog.jpg)
+![alt text](https://github.com/imkir0513/Recommender-system-linebot/blob/master/demo_image/image_recog.jpg =100x20)
 
 5. Functions as Saving workout plans or Saving recipes are also included. More demo images, please refer to demo_image directory.
 
